@@ -18,18 +18,26 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    var categories: [Category]!
+    var sections: [Section] = [
+        Section(name: "Offering a Deal"),
+        Section(name: "Distance"),
+        Section(name: "Sort By"),
+        Section(name: "Category")
+    ]
+    
+    let HeaderViewIdentifier = "TableViewHeaderView"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
 
         // Do any additional setup after loading the view.
-        categories = yelpCategories()
+        sections[3].data = yelpCategories()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -44,7 +52,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         var filters = [String: AnyObject]()
         
         var selectedCategories = [String]()
-        for category in categories {
+        for category in (sections[3].data)! {
             if category.isOn {
                 selectedCategories.append(category.alias!)
             }
@@ -57,20 +65,30 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         delegate?.filtersViewController?(filtersViewController: self, didUpdateFilters: filters)
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return (sections[section].data?.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-        cell.model = categories[indexPath.row]
+        cell.model = sections[indexPath.section].data?[indexPath.row]
         cell.delegate = self
         return cell
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderViewIdentifier)!
+        header.textLabel?.text = sections[section].name
+        return header
+    }
+    
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: switchCell)!
-        categories[indexPath.row].isOn = value
+        sections[indexPath.section].data?[indexPath.row].isOn = value
     }
     
     func yelpCategories() -> [Category] {

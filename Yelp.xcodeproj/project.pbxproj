@@ -20,6 +20,7 @@
 		274A0BC11E99A3380067821F /* Data in Resources */ = {isa = PBXBuildFile; fileRef = 274A0BC01E99A3380067821F /* Data */; };
 		31D95BCBCA38716181E686D3 /* Pods_Yelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79C0AC126EDAA235847CEA2 /* Pods_Yelp.framework */; };
 		605744AA1E9769A2009E4D11 /* BusinessCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605744A91E9769A2009E4D11 /* BusinessCell.swift */; };
+		605744AC1E9A1CD0009E4D11 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605744AB1E9A1CD0009E4D11 /* Section.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		274A0BBE1E999DDF0067821F /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		274A0BC01E99A3380067821F /* Data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Data; sourceTree = "<group>"; };
 		605744A91E9769A2009E4D11 /* BusinessCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessCell.swift; sourceTree = "<group>"; };
+		605744AB1E9A1CD0009E4D11 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		883322706A784248B16F444A /* Pods-Yelp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Yelp.release.xcconfig"; path = "Pods/Target Support Files/Pods-Yelp/Pods-Yelp.release.xcconfig"; sourceTree = "<group>"; };
 		AA3C5CF4FD317D72ABE2AAC4 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79C0AC126EDAA235847CEA2 /* Pods_Yelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Yelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,7 @@
 			children = (
 				22AAAA981AEA0A9700A544AF /* Business.swift */,
 				274A0BBE1E999DDF0067821F /* Category.swift */,
+				605744AB1E9A1CD0009E4D11 /* Section.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				605744AC1E9A1CD0009E4D11 /* Section.swift in Sources */,
 				605744AA1E9769A2009E4D11 /* BusinessCell.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
 				274A0BBD1E9994D80067821F /* FiltersViewController.swift in Sources */,
