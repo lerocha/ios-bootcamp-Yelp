@@ -65,14 +65,33 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func onSearchButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
         var filters = [String: AnyObject]()
+
+        // deals
+        filters["deals"] = self.filters[0].options?[0].isOn as AnyObject
         
+        // distance
+        for filterOption in self.filters[1].options! {
+            if filterOption.isOn {
+                filters["distance"] = filterOption.value as AnyObject
+                break
+            }
+        }
+        
+        // sort
+        for filterOption in self.filters[2].options! {
+            if filterOption.isOn {
+                filters["sort"] = filterOption.value as AnyObject
+                break
+            }
+        }
+        
+        // categories
         var selectedCategories = [String]()
         for category in (self.filters[3].options)! {
             if category.isOn {
                 selectedCategories.append(category.value as! String)
             }
         }
-        
         if selectedCategories.count > 0 {
             filters["categories"] = selectedCategories as AnyObject
         }
