@@ -9,7 +9,7 @@
 import UIKit
 import AFNetworking
 
-class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -44,8 +44,14 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-        cell.switchLabel.text = categories[indexPath.row].title
+        cell.model = categories[indexPath.row]
+        cell.delegate = self
         return cell
+    }
+    
+    func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
+        let indexPath = tableView.indexPath(for: switchCell)!
+        categories[indexPath.row].isOn = value
     }
     
     func yelpCategories() -> [Category] {

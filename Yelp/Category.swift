@@ -12,6 +12,7 @@ class Category: NSObject {
     let alias: String?
     let title: String?
     let parents: [String]?
+    var isOn: Bool = false
     
     init(alias: String, title: String) {
         self.alias = alias
