@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UISearchBarDelegate {
     
@@ -28,9 +29,13 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
                 self.businesses = businesses
                 self.tableView.reloadData()
+                MBProgressHUD.hide(for: self.view, animated: true)
+
                 if let businesses = businesses {
                     for business in businesses {
                         print(business.name!)
@@ -39,25 +44,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                 }
             }
         )
-        
-        /* Example of Yelp search with more search options specified
-         Business.searchWithTerm("Restaurants", sort: .Distance, categories: ["asianfusion", "burgers"], deals: true) { (businesses: [Business]!, error: NSError!) -> Void in
-         self.businesses = businesses
-         
-         for business in businesses {
-         print(business.name!)
-         print(business.address!)
-         }
-         }
-         */
-        
     }
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         Business.searchWithTerm(term: searchText) { (businesses, error) in
             self.businesses = businesses
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
     
@@ -92,6 +88,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         print(filters)
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
         let deals = filters["deals"] as? Bool
 //        let distance = filters["distance"] as? Int
         let sort = filters["sort"] as? YelpSortMode
@@ -99,6 +97,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals) { (businesses, error) in
             self.businesses = businesses
             self.tableView.reloadData()
+            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
 }
