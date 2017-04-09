@@ -32,20 +32,20 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         // Build the sections.
         sections = [
             Section(name: "Offering a Deal", data: [
-                Category(alias: "deal", title: "Offering a Deal"),
+                Category(value: nil, title: "Offering a Deal"),
             ]),
             Section(name: "Distance", data: [
-                Category(alias: "distance", title: "Best Match", isOn: true),
-                Category(alias: "distance", title: "0.3 miles"),
-                Category(alias: "distance", title: "1 mile"),
-                Category(alias: "distance", title: "5 miles"),
-                Category(alias: "distance", title: "20 miles"),
+                Category(value: 0, title: "Best Match", isOn: true),
+                Category(value: 1, title: "0.3 miles"),
+                Category(value: 2, title: "1 mile"),
+                Category(value: 3, title: "5 miles"),
+                Category(value: 4, title: "20 miles"),
             ]),
             Section(name: "Sort By", data: [
-                Category(alias: "distance", title: "Best Match", isOn: true),
-                Category(alias: "distance", title: "Distance"),
-                Category(alias: "distance", title: "Rating"),
-                Category(alias: "distance", title: "Most Reviewed"),
+                Category(value: YelpSortMode.bestMatched, title: "Best Match", isOn: true),
+                Category(value: YelpSortMode.distance, title: "Distance"),
+                Category(value: YelpSortMode.highestRated, title: "Rating"),
+                Category(value: YelpSortMode.highestRated, title: "Most Reviewed"),
             ]),
             Section(name: "Category", data:
                 yelpCategories()
@@ -69,7 +69,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         var selectedCategories = [String]()
         for category in (sections[3].data)! {
             if category.isOn {
-                selectedCategories.append(category.alias!)
+                selectedCategories.append(category.value as! String)
             }
         }
         

@@ -9,26 +9,26 @@
 import UIKit
 
 class Category: NSObject {
-    let alias: String?
+    let value: Any?
     let title: String?
     let parents: [String]?
     var isOn: Bool = false
     
-    init(alias: String, title: String) {
-        self.alias = alias
+    init(value: Any?, title: String) {
+        self.value = value
         self.title = title
         self.parents = [String]()
     }
     
-    init(alias: String, title: String, isOn: Bool) {
-        self.alias = alias
+    init(value: Any?, title: String, isOn: Bool) {
+        self.value = value
         self.title = title
         self.isOn = isOn
         self.parents = [String]()
     }
     
     init(categoryDict: NSDictionary) {
-        self.alias = categoryDict["alias"] as? String
+        self.value = categoryDict["alias"] as? String
         self.title = categoryDict["title"] as? String
         self.parents = categoryDict["parents"] as? [String]
     }
