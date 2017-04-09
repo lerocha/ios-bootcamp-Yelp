@@ -18,12 +18,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    var sections: [Section] = [
-        Section(name: "Offering a Deal"),
-        Section(name: "Distance"),
-        Section(name: "Sort By"),
-        Section(name: "Category")
-    ]
+    var sections: [Section]!
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
@@ -34,8 +29,28 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
 
-        // Do any additional setup after loading the view.
-        sections[3].data = yelpCategories()
+        // Build the sections.
+        sections = [
+            Section(name: "Offering a Deal", data: [
+                Category(alias: "deal", title: "Offering a Deal"),
+            ]),
+            Section(name: "Distance", data: [
+                Category(alias: "distance", title: "Best Match", isOn: true),
+                Category(alias: "distance", title: "0.3 miles"),
+                Category(alias: "distance", title: "1 mile"),
+                Category(alias: "distance", title: "5 miles"),
+                Category(alias: "distance", title: "20 miles"),
+            ]),
+            Section(name: "Sort By", data: [
+                Category(alias: "distance", title: "Best Match", isOn: true),
+                Category(alias: "distance", title: "Distance"),
+                Category(alias: "distance", title: "Rating"),
+                Category(alias: "distance", title: "Most Reviewed"),
+            ]),
+            Section(name: "Category", data:
+                yelpCategories()
+            ),
+        ]
     }
     
     override func didReceiveMemoryWarning() {

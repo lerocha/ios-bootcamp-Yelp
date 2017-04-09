@@ -20,6 +20,13 @@ class Category: NSObject {
         self.parents = [String]()
     }
     
+    init(alias: String, title: String, isOn: Bool) {
+        self.alias = alias
+        self.title = title
+        self.isOn = isOn
+        self.parents = [String]()
+    }
+    
     init(categoryDict: NSDictionary) {
         self.alias = categoryDict["alias"] as? String
         self.title = categoryDict["title"] as? String

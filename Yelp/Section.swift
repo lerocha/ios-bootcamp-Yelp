@@ -9,18 +9,11 @@
 import UIKit
 
 class Section: NSObject {
-    var name: String?
-    var data: [Category]?
+    let name: String?
+    let data: [Category]?
     
     init(name: String, data: [Category]) {
         self.name = name
         self.data = data
-    }
-    
-    init(name: String) {
-        self.name = name
-        let category = Category(alias: "", title: name)
-        self.data = [Category]()
-        self.data?.append(category)
     }
 }
