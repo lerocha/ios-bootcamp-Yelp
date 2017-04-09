@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, FiltersViewControllerDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -22,18 +22,21 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
+        let searchBar = UISearchBar()
+        searchBar.delegate = self
+        searchBar.placeholder = "Restaurants"
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
+        
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-            
-            self.businesses = businesses
-            self.tableView.reloadData()
-            
-            if let businesses = businesses {
-                for business in businesses {
-                    print(business.name!)
-                    print(business.address!)
+                self.businesses = businesses
+                self.tableView.reloadData()
+                if let businesses = businesses {
+                    for business in businesses {
+                        print(business.name!)
+                        print(business.address!)
+                    }
                 }
-            }
-            
             }
         )
         
@@ -48,6 +51,14 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
          }
          */
         
+    }
+    
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        Business.searchWithTerm(term: searchText) { (businesses, error) in
+            self.businesses = businesses
+            self.tableView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
