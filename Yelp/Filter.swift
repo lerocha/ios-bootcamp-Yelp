@@ -11,9 +11,11 @@ import UIKit
 class Filter: NSObject {
     let name: String?
     let options: [FilterOption]?
+    let isExclusive: Bool?
     
-    init(name: String, options: [FilterOption]) {
+    init(name: String, isExclusive: Bool, options: [FilterOption]) {
         self.name = name
+        self.isExclusive = isExclusive
         self.options = options
     }
 }

@@ -29,25 +29,25 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.delegate = self
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
 
-        // Build the sections.
+        // Build all filters data.
         filters = [
-            Filter(name: "Offering a Deal", options: [
+            Filter(name: "Offering a Deal", isExclusive: false, options: [
                 FilterOption(value: nil, title: "Offering a Deal"),
             ]),
-            Filter(name: "Distance", options: [
+            Filter(name: "Distance", isExclusive: true, options: [
                 FilterOption(value: 0, title: "Best Match", isOn: true),
                 FilterOption(value: 1, title: "0.3 miles"),
                 FilterOption(value: 2, title: "1 mile"),
                 FilterOption(value: 3, title: "5 miles"),
                 FilterOption(value: 4, title: "20 miles"),
             ]),
-            Filter(name: "Sort By", options: [
+            Filter(name: "Sort By", isExclusive: true, options: [
                 FilterOption(value: YelpSortMode.bestMatched, title: "Best Match", isOn: true),
                 FilterOption(value: YelpSortMode.distance, title: "Distance"),
                 FilterOption(value: YelpSortMode.highestRated, title: "Rating"),
                 FilterOption(value: YelpSortMode.highestRated, title: "Most Reviewed"),
             ]),
-            Filter(name: "Category", options:
+            Filter(name: "Category", isExclusive: false, options:
                 getYelpCategoryFilterOptions()
             ),
         ]
@@ -122,7 +122,21 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: switchCell)!
-        filters[indexPath.section].options?[indexPath.row].isOn = value
+        let filter = filters[indexPath.section]
+        if let selectedOption = filter.options?[indexPath.row] {
+            // update the model state with current value
+            selectedOption.isOn = value
+            
+            // if it is an exclusive filter, then needs to unselect other options
+            if (value && filter.isExclusive!) {
+                for option in filters[indexPath.section].options! {
+                    if (option.isOn && option != selectedOption) {
+                        option.isOn = false
+                        tableView.reloadData()
+                    }
+                }
+            }
+        }
     }
     
     func getYelpCategoryFilterOptions() -> [FilterOption] {
