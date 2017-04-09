@@ -1,5 +1,5 @@
 //
-//  Category.swift
+//  FilterOption.swift
 //  Yelp
 //
 //  Created by Rocha, Luis on 4/8/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Category: NSObject {
+class FilterOption: NSObject {
     let value: Any?
     let title: String?
     let parents: [String]?

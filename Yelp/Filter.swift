@@ -1,5 +1,5 @@
 //
-//  Section.swift
+//  Filter.swift
 //  Yelp
 //
 //  Created by Luis Rocha on 4/9/17.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class Section: NSObject {
+class Filter: NSObject {
     let name: String?
-    let data: [Category]?
+    let options: [FilterOption]?
     
-    init(name: String, data: [Category]) {
+    init(name: String, options: [FilterOption]) {
         self.name = name
-        self.data = data
+        self.options = options
     }
 }

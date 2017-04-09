@@ -18,7 +18,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    var sections: [Section]!
+    var filters: [Filter]!
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
@@ -30,25 +30,25 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
 
         // Build the sections.
-        sections = [
-            Section(name: "Offering a Deal", data: [
-                Category(value: nil, title: "Offering a Deal"),
+        filters = [
+            Filter(name: "Offering a Deal", options: [
+                FilterOption(value: nil, title: "Offering a Deal"),
             ]),
-            Section(name: "Distance", data: [
-                Category(value: 0, title: "Best Match", isOn: true),
-                Category(value: 1, title: "0.3 miles"),
-                Category(value: 2, title: "1 mile"),
-                Category(value: 3, title: "5 miles"),
-                Category(value: 4, title: "20 miles"),
+            Filter(name: "Distance", options: [
+                FilterOption(value: 0, title: "Best Match", isOn: true),
+                FilterOption(value: 1, title: "0.3 miles"),
+                FilterOption(value: 2, title: "1 mile"),
+                FilterOption(value: 3, title: "5 miles"),
+                FilterOption(value: 4, title: "20 miles"),
             ]),
-            Section(name: "Sort By", data: [
-                Category(value: YelpSortMode.bestMatched, title: "Best Match", isOn: true),
-                Category(value: YelpSortMode.distance, title: "Distance"),
-                Category(value: YelpSortMode.highestRated, title: "Rating"),
-                Category(value: YelpSortMode.highestRated, title: "Most Reviewed"),
+            Filter(name: "Sort By", options: [
+                FilterOption(value: YelpSortMode.bestMatched, title: "Best Match", isOn: true),
+                FilterOption(value: YelpSortMode.distance, title: "Distance"),
+                FilterOption(value: YelpSortMode.highestRated, title: "Rating"),
+                FilterOption(value: YelpSortMode.highestRated, title: "Most Reviewed"),
             ]),
-            Section(name: "Category", data:
-                yelpCategories()
+            Filter(name: "Category", options:
+                getYelpCategoryFilterOptions()
             ),
         ]
     }
@@ -67,7 +67,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         var filters = [String: AnyObject]()
         
         var selectedCategories = [String]()
-        for category in (sections[3].data)! {
+        for category in (self.filters[3].options)! {
             if category.isOn {
                 selectedCategories.append(category.value as! String)
             }
@@ -81,48 +81,48 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return filters.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (sections[section].data?.count)!
+        return (filters[section].options?.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-        cell.model = sections[indexPath.section].data?[indexPath.row]
+        cell.model = filters[indexPath.section].options?[indexPath.row]
         cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: HeaderViewIdentifier)!
-        header.textLabel?.text = sections[section].name
+        header.textLabel?.text = filters[section].name
         return header
     }
     
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: switchCell)!
-        sections[indexPath.section].data?[indexPath.row].isOn = value
+        filters[indexPath.section].options?[indexPath.row].isOn = value
     }
     
-    func yelpCategories() -> [Category] {
-        var categories = [Category]()
+    func getYelpCategoryFilterOptions() -> [FilterOption] {
+        var options = [FilterOption]()
         
         // read categories.json from Yelp
         if let url = Bundle.main.url(forResource: "Data/categories", withExtension: "json") {
             let data = try! Data(contentsOf: url)
             if let json = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
                 for dict in json {
-                    let category = Category(categoryDict: dict as NSDictionary)
-                    if (category.parents?.contains("restaurants"))! {
-                        categories.append(category)
+                    let option = FilterOption(categoryDict: dict as NSDictionary)
+                    if (option.parents?.contains("restaurants"))! {
+                        options.append(option)
                     }
                 }
             }
         }
         
-        return categories
+        return options
     }
     
     /*

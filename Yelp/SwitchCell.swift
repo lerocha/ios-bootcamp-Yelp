@@ -18,7 +18,7 @@ class SwitchCell: UITableViewCell {
     @IBOutlet weak var onSwitch: UISwitch!
     
     weak var delegate: SwitchCellDelegate?
-    var model: Category? {
+    var model: FilterOption? {
         didSet {
             switchLabel.text = model?.title
             onSwitch.isOn = model?.isOn ?? false
