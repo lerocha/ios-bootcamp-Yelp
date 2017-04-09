@@ -82,7 +82,9 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             if let json = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
                 for dict in json {
                     let category = Category(categoryDict: dict as NSDictionary)
-                    categories.append(category)
+                    if (category.parents?.contains("restaurants"))! {
+                        categories.append(category)
+                    }
                 }
             }
         }
