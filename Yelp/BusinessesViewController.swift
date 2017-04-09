@@ -32,18 +32,17 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         MBProgressHUD.showAdded(to: self.view, animated: true)
 
         Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
-                self.businesses = businesses
-                self.tableView.reloadData()
-                MBProgressHUD.hide(for: self.view, animated: true)
+            MBProgressHUD.hide(for: self.view, animated: true)
+            self.businesses = businesses
+            self.tableView.reloadData()
 
-                if let businesses = businesses {
-                    for business in businesses {
-                        print(business.name!)
-                        print(business.address!)
-                    }
+            if let businesses = businesses {
+                for business in businesses {
+                    print(business.name!)
+                    print(business.address!)
                 }
             }
-        )
+        })
     }
     
     
@@ -51,9 +50,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         MBProgressHUD.showAdded(to: self.view, animated: true)
         
         Business.searchWithTerm(term: searchText) { (businesses, error) in
+            MBProgressHUD.hide(for: self.view, animated: true)
             self.businesses = businesses
             self.tableView.reloadData()
-            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
     
@@ -95,9 +94,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         let sort = filters["sort"] as? YelpSortMode
         let categories = filters["categories"] as? [String]
         Business.searchWithTerm(term: "Restaurants", sort: sort, categories: categories, deals: deals) { (businesses, error) in
+            MBProgressHUD.hide(for: self.view, animated: true)
             self.businesses = businesses
             self.tableView.reloadData()
-            MBProgressHUD.hide(for: self.view, animated: true)
         }
     }
 }
