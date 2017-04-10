@@ -18,7 +18,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     
     weak var delegate: FiltersViewControllerDelegate?
     
-    var filters: [Filter]!
+    var filters: [Filter] = Filter.createFilters()
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
@@ -28,29 +28,6 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
-
-        // Build all filters data.
-        filters = [
-            Filter(name: "Offering a Deal", isExclusive: false, options: [
-                FilterOption(value: nil, title: "Offering a Deal"),
-            ]),
-            Filter(name: "Distance", isExclusive: true, options: [
-                FilterOption(value: 0, title: "Best Match", isOn: true),
-                FilterOption(value: 1, title: "0.3 miles"),
-                FilterOption(value: 2, title: "1 mile"),
-                FilterOption(value: 3, title: "5 miles"),
-                FilterOption(value: 4, title: "20 miles"),
-            ]),
-            Filter(name: "Sort By", isExclusive: true, options: [
-                FilterOption(value: YelpSortMode.bestMatched, title: "Best Match", isOn: true),
-                FilterOption(value: YelpSortMode.distance, title: "Distance"),
-                FilterOption(value: YelpSortMode.highestRated, title: "Rating"),
-                FilterOption(value: YelpSortMode.highestRated, title: "Most Reviewed"),
-            ]),
-            Filter(name: "Category", isExclusive: false, options:
-                getYelpCategoryFilterOptions()
-            ),
-        ]
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,26 +47,26 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         filters["deals"] = self.filters[0].filteredOptions?[0].isOn as AnyObject
         
         // distance
-        for filterOption in self.filters[1].filteredOptions! {
-            if filterOption.isOn {
-                filters["distance"] = filterOption.value as AnyObject
+        for option in self.filters[1].filteredOptions! {
+            if option.isOn {
+                filters["distance"] = option.value as AnyObject
                 break
             }
         }
         
         // sort
-        for filterOption in self.filters[2].filteredOptions! {
-            if filterOption.isOn {
-                filters["sort"] = filterOption.value as AnyObject
+        for option in self.filters[2].filteredOptions! {
+            if option.isOn {
+                filters["sort"] = option.value as AnyObject
                 break
             }
         }
         
         // categories
         var selectedCategories = [String]()
-        for category in (self.filters[3].filteredOptions)! {
-            if category.isOn {
-                selectedCategories.append(category.value as! String)
+        for option in (self.filters[3].filteredOptions)! {
+            if option.isOn {
+                selectedCategories.append(option.value as! String)
             }
         }
         if selectedCategories.count > 0 {
@@ -142,25 +119,6 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                 tableView.reloadData()
             }
         }
-    }
-    
-    func getYelpCategoryFilterOptions() -> [FilterOption] {
-        var options = [FilterOption]()
-        
-        // read categories.json from Yelp
-        if let url = Bundle.main.url(forResource: "Data/categories", withExtension: "json") {
-            let data = try! Data(contentsOf: url)
-            if let json = try! JSONSerialization.jsonObject(with: data, options:[]) as? [NSDictionary] {
-                for dict in json {
-                    let option = FilterOption(categoryDict: dict as NSDictionary)
-                    if (option.parents?.contains("restaurants"))! {
-                        options.append(option)
-                    }
-                }
-            }
-        }
-        
-        return options
     }
     
     /*
