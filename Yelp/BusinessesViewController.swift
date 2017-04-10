@@ -31,7 +31,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         
         MBProgressHUD.showAdded(to: self.view, animated: true)
 
-        Business.searchWithTerm(term: "Thai", completion: { (businesses: [Business]?, error: Error?) -> Void in
+        Business.searchWithTerm(term: "Restaurants", completion: { (businesses: [Business]?, error: Error?) -> Void in
             MBProgressHUD.hide(for: self.view, animated: true)
             self.businesses = businesses
             self.tableView.reloadData()
@@ -47,10 +47,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
-        
         Business.searchWithTerm(term: searchText) { (businesses, error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
             self.businesses = businesses
             self.tableView.reloadData()
         }
