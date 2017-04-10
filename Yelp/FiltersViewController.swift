@@ -135,7 +135,6 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                     for option in filters[indexPath.section].options! {
                         if (option.isOn && option != selectedOption) {
                             option.isOn = false
-                            tableView.reloadData()
                         }
                     }
                 }
