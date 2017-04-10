@@ -70,8 +70,8 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, Seafood, Salad" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Dv-kF-21p">
-                                                    <rect key="frame" x="81" y="68" width="125" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thai, Seafood, Salad" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Dv-kF-21p">
+                                                    <rect key="frame" x="81" y="68" width="286" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -87,6 +87,7 @@
                                                 <constraint firstItem="7Dv-kF-21p" firstAttribute="top" secondItem="kBT-wn-1Zx" secondAttribute="bottom" constant="2" id="0AC-KD-yHK"/>
                                                 <constraint firstItem="kBT-wn-1Zx" firstAttribute="leading" secondItem="wXl-IQ-dhh" secondAttribute="trailing" constant="8" id="0FP-VJ-qw9"/>
                                                 <constraint firstItem="wXl-IQ-dhh" firstAttribute="leading" secondItem="6FN-aQ-MvW" secondAttribute="leading" constant="8" id="0ii-cr-bN0"/>
+                                                <constraint firstAttribute="trailing" secondItem="7Dv-kF-21p" secondAttribute="trailing" constant="8" id="4Lm-Di-hLh"/>
                                                 <constraint firstItem="vxS-CI-jne" firstAttribute="top" secondItem="6FN-aQ-MvW" secondAttribute="top" constant="8" id="4ek-lM-3bq"/>
                                                 <constraint firstItem="Pib-y4-u9n" firstAttribute="leading" secondItem="01b-sf-oz0" secondAttribute="trailing" constant="5" id="7Cz-WB-50e"/>
                                                 <constraint firstAttribute="trailing" secondItem="kBT-wn-1Zx" secondAttribute="trailing" constant="8" id="9Cn-zB-uLz"/>
@@ -162,7 +163,7 @@
                                         <rect key="frame" x="0.0" y="56" width="375" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2TZ-Pj-dnb" id="w3I-wP-Jne">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="47"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RdX-er-o16">
