@@ -67,10 +67,10 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         var filters = [String: AnyObject]()
 
         // deals
-        filters["deals"] = self.filters[0].options?[0].isOn as AnyObject
+        filters["deals"] = self.filters[0].filteredOptions?[0].isOn as AnyObject
         
         // distance
-        for filterOption in self.filters[1].options! {
+        for filterOption in self.filters[1].filteredOptions! {
             if filterOption.isOn {
                 filters["distance"] = filterOption.value as AnyObject
                 break
@@ -78,7 +78,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // sort
-        for filterOption in self.filters[2].options! {
+        for filterOption in self.filters[2].filteredOptions! {
             if filterOption.isOn {
                 filters["sort"] = filterOption.value as AnyObject
                 break
@@ -87,7 +87,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // categories
         var selectedCategories = [String]()
-        for category in (self.filters[3].options)! {
+        for category in (self.filters[3].filteredOptions)! {
             if category.isOn {
                 selectedCategories.append(category.value as! String)
             }
@@ -104,12 +104,13 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (filters[section].options?.count)!
+        return (filters[section].filteredOptions?.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let filter = filters[indexPath.section]
         let cell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell", for: indexPath) as! SwitchCell
-        cell.model = filters[indexPath.section].options?[indexPath.row]
+        cell.model = filter.filteredOptions?[indexPath.row]
         cell.delegate = self
         return cell
     }
@@ -123,18 +124,23 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPath(for: switchCell)!
         let filter = filters[indexPath.section]
-        if let selectedOption = filter.options?[indexPath.row] {
+        if let selectedOption = filter.filteredOptions?[indexPath.row] {
             // update the model state with current value
             selectedOption.isOn = value
             
             // if it is an exclusive filter, then needs to unselect other options
-            if (value && filter.isExclusive!) {
-                for option in filters[indexPath.section].options! {
-                    if (option.isOn && option != selectedOption) {
-                        option.isOn = false
-                        tableView.reloadData()
+            if (filter.isExclusive!) {
+                if (value) {
+                    // unset all cells
+                    for option in filters[indexPath.section].options! {
+                        if (option.isOn && option != selectedOption) {
+                            option.isOn = false
+                            tableView.reloadData()
+                        }
                     }
                 }
+                filter.showAll = !value
+                tableView.reloadData()
             }
         }
     }
